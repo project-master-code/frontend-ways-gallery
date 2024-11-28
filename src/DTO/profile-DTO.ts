@@ -3,6 +3,6 @@ export interface ProfileResponseDTO {
   userId: number;
   fullName: string;
   greeting: string;
-  avatar: File;
-  bestArt: File;
+  avatar: any;
+  bestArt: any;
 }

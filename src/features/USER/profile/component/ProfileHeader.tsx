@@ -1,7 +1,15 @@
 import { Avatar, Box, Button, Heading, Stack } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../../stores/stores';
+import { useEffect } from 'react';
+import { getProfileAsync } from '../../../../stores/profiles/async';
 
 export default function ProfileHeader() {
+  const dispatch = useAppDispatch();
+  const { profile } = useAppSelector((state) => state.profiles);
+  useEffect(() => {
+    dispatch(getProfileAsync());
+  }, [dispatch]);
   return (
     <Box
       maxW="container.xl"
@@ -24,7 +32,7 @@ export default function ProfileHeader() {
             fontSize={{ base: '2xl', md: '2xl' }}
             fontWeight="bold"
           >
-            Radif Ganteng
+            {profile.fullName}
           </Heading>
           <Heading
             as="h2"

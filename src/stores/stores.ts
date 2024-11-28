@@ -9,7 +9,7 @@ const store = configureStore({
   reducer: {
     auth: authReducer,
     upload: uploadReducer,
-    profile: profileReducer,
+    profiles: profileReducer,
   },
 });
 

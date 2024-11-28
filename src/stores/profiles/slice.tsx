@@ -2,23 +2,24 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ProfileResponseDTO } from '../../DTO/profile-DTO';
 import { getProfileAsync, putProfileAsync } from './async';
 export interface ProfileState {
-  Profile: ProfileResponseDTO;
+  profile: ProfileResponseDTO;
   loading: boolean;
 }
 
 const initialState: ProfileState = {
-  Profile: {} as ProfileResponseDTO,
+  profile: {} as ProfileResponseDTO,
   loading: false,
 };
 
 const ProfileSlice = createSlice({
-  name: 'Profile',
+  name: 'profile',
   initialState: initialState,
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getProfileAsync.fulfilled, (state) => {
+      .addCase(getProfileAsync.fulfilled, (state, action) => {
         state.loading = false;
+        state.profile = action.payload.content;
       })
       .addCase(getProfileAsync.pending, (state) => {
         state.loading = true;
@@ -29,7 +30,7 @@ const ProfileSlice = createSlice({
     builder
       .addCase(putProfileAsync.fulfilled, (state, action) => {
         state.loading = false;
-        state.Profile = action.payload.profile;
+        state.profile = action.payload.content;
       })
       .addCase(putProfileAsync.pending, (state) => {
         state.loading = true;
