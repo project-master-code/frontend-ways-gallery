@@ -3,7 +3,6 @@ export interface LoginResponseDTO {
   user: {
     id: number;
     email: string;
-    role: 'USER';
     role: string;
   };
 }

@@ -1,129 +1,60 @@
-import {
-  Box,
-  Button,
-  Grid,
-  HStack,
-  Image,
-  Text,
-  useDisclosure,
-  VStack,
-} from '@chakra-ui/react';
-import profileImage from '../../../../assets/image/profile.png';
-import { useEffect, useState } from 'react';
-import ModalEditProfile from './Modal-Edit-Profile';
-import { ProfileResponseDTO } from './../../../../DTO/profile-DTO';
-import { getProfileByIdUserLogin } from './../../../../stores/profile/async-profile';
-import { useAppDispatch } from './../../../../stores/stores';
-import ProfileTransaction from './Profile-Transaction';
+import { Box, GridItem, Image, SimpleGrid, VStack } from '@chakra-ui/react';
+import PortfolioGrid from './PortofolioGrid';
+import ProfileHeader from './ProfileHeader';
 
 export default function Profile(): React.ReactNode {
-  const dispatch = useAppDispatch();
-  const [profile, setProfile] = useState<ProfileResponseDTO>();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const state = await dispatch(getProfileByIdUserLogin()).unwrap();
-        setProfile(state);
-      } catch (e) {}
-    })();
-  }, []);
-
   return (
-    <Grid
-      gridTemplateColumns={'55% 45%'}
-      padding={'100px 50px'}
-    >
-      {profile && (
-        <ModalEditProfile
-          isOpen={isOpen}
-          onClose={onClose}
-          profile={profile}
-          setProfile={setProfile}
-        ></ModalEditProfile>
-      )}
-      <HStack>
-        <VStack
-          width={'100%'}
-          alignItems={'start'}
-          h={'100%'}
-        >
-          <Text
-            color={'brand.active'}
-            textAlign={'start'}
-            mb={'20px'}
-          >
-            <b>My Profile</b>
-          </Text>
-          <Grid
-            gap={'20px'}
-            width={'100%'}
-            h={'100%'}
-            templateColumns={'50% 50%'}
-          >
-            <Grid
-              width={'100%'}
-              h={'100%'}
-            >
-              <Image
-                src={profileImage}
-                width={'100%'}
-                h={'100%'}
-              ></Image>
-            </Grid>
-            <VStack alignItems={'start'}>
-              <VStack alignItems={'start'}>
-                <Text color={'brand.active'}>Name</Text>
-                <Text color={'brand.baseColor'}>
-                  {profile?.content.profile.name}
-                </Text>
-              </VStack>
-              <VStack alignItems={'start'}>
-                <Text color={'brand.active'}>Email</Text>
-                <Text color={'brand.baseColor'}>
-                  {profile?.content.profile.user?.email}
-                </Text>
-              </VStack>
-              <VStack alignItems={'start'}>
-                <Text color={'brand.active'}>Phone</Text>
-                <Text color={'brand.baseColor'}>
-                  {profile?.content.profile.phone}
-                </Text>
-              </VStack>
-              <VStack alignItems={'start'}>
-                <Text color={'brand.active'}>Gender</Text>
-                <Text color={'brand.baseColor'}>
-                  {profile?.content.profile.gender}
-                </Text>
-              </VStack>
-              <VStack alignItems={'start'}>
-                <Text color={'brand.active'}>Address</Text>
-                <Text color={'brand.baseColor'}>
-                  {profile?.content.profile.address}
-                </Text>
-              </VStack>
-              <Button onClick={onOpen}>edit profile</Button>
-            </VStack>
-          </Grid>
-        </VStack>
-      </HStack>
+    <>
       <VStack
-        alignItems={'start'}
-        p={'20px'}
+        p={'50px'}
+        mt={'30px'}
+        height={'100%'}
+        overflowY={'auto'}
       >
-        <Text
-          color={'brand.active'}
-          textAlign={'start'}
-          mb={'20px'}
-        >
-          <b>My Transaction</b>
-        </Text>
-        {profile?.content.profile.Transaction.length !== 0 &&
-          profile?.content.profile.Transaction.map((trans) => {
-            return <ProfileTransaction></ProfileTransaction>;
-          })}
+        <main>
+          <SimpleGrid
+            columns={{ base: 2, md: 5 }}
+            gap={{ base: '24px', md: '40px' }}
+          >
+            <GridItem colSpan={{ base: 1, md: 2 }}>
+              <ProfileHeader />
+            </GridItem>
+            <GridItem colSpan={{ base: 1, md: 3 }}>
+              <Box position={'relative'}>
+                <Box
+                  zIndex={-1}
+                  position={'absolute'}
+                  marginTop={10}
+                  backgroundColor={'#2FC4B2'}
+                  padding={'20px'}
+                  display={'flex'}
+                  width={'450px'}
+                  right={-200}
+                  top={-100}
+                  height={'60vh'}
+                  flexWrap={'wrap'}
+                ></Box>
+              </Box>
+              <Box
+                backgroundColor={'white'}
+                border={'2px dashed'}
+                marginTop={10}
+                padding={'20px'}
+                display={'flex'}
+                width={'100%'}
+                flexWrap={'wrap'}
+              >
+                <Image
+                  src={'/'}
+                  width={'100%'}
+                  height={'300px'}
+                />
+              </Box>
+            </GridItem>
+          </SimpleGrid>
+          <PortfolioGrid />
+        </main>
       </VStack>
-    </Grid>
+    </>
   );
 }
