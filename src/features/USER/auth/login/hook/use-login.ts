@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../stores/stores';
 import { LoginSchema } from '../../../../../schemas/login-schema';
 import { LoginResponseDTO } from '../../../../../DTO/login-response-DTO';
 import { loginAsync } from '../../../../../stores/auth/async';
+import { ResponseDTO } from '../../../../../DTO/response-DTO';
 
 export default function useLogin(): UseLoginTypes {
   const dispatch: ThunkDispatch<{ auth: AuthState }, undefined, UnknownAction> &
@@ -16,7 +17,9 @@ export default function useLogin(): UseLoginTypes {
   const loading: boolean = useAppSelector((state) => state.auth.loading);
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
-    const res: LoginResponseDTO = await dispatch(loginAsync(data)).unwrap();
+    const res: ResponseDTO<LoginResponseDTO> = await dispatch(
+      loginAsync(data)
+    ).unwrap();
 
     if (res.status)
       setTimeout(() => {

@@ -1,8 +1,8 @@
 import { Box, Button, Text, VStack } from '@chakra-ui/react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import InputForm from '../../component/Input-Form';
 import { detailInputForm } from '../../types/input-form-types';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import useLogin from '../hook/use-login';
 import {
   LoginSchema,
